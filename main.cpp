@@ -165,9 +165,24 @@ int main() {
     }
 
     //basic output
+    cout << "Number of simulations: " << runs << endl;
+    cout << setw(W) << "Operation" << setw(W) << "Vector";
+    cout << setw(W) << "List" << setw(W) << "Set" << endl;
     for (int i = 0; i < OPS; i++) {
+        if (i==0){
+            cout << setw(W) << "Read";
+        }
+        if (i==1){
+            cout << setw(W) << "Sort";
+        }
+        if (i==2){
+            cout << setw(W) << "Insert";
+        }
+        if (i==3){
+            cout << setw(W) << "Delete";
+        }
         for (int j = 0; j < STRUCTS; j++) {
-            cout << data[1][i][j]/runs << " ";
+            cout << setw(W) << data[1][i][j]/runs;
         }
         cout << endl;
     }
