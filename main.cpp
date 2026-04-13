@@ -11,10 +11,10 @@ using namespace std::chrono;
 
 const int W = 20, OPS = 4, STRUCTS = 3, runs = 15;
 
-void V_sort(vector<string>&);
-void L_insert(list<string>&);
-void L_delete(list<string>&);
-void S_delete(set<string>&);
+void V_sort(vector<string>);
+void L_insert(list<string>);
+void L_delete(list<string>);
+void S_delete(set<string>);
 
 int main() {
     vector<string> vectors;
@@ -61,7 +61,7 @@ int main() {
             data[0][0][1] = duration.count();
             data[1][0][1] += data[0][0][1];
         }
-        
+        fin.close();
     }
 
     for (int run = 0; run < runs; run++) {
@@ -77,7 +77,7 @@ int main() {
             data[0][0][2] = duration.count();
             data[1][0][2] += data[0][0][2];
         }
-       
+        fin.close();
     }
 
     //sorting
@@ -92,7 +92,7 @@ int main() {
 
     for (int run = 0; run < runs; run++) {
         auto start = high_resolution_clock::now();
-        lists.sort();
+        L_sort(lists);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
         data[0][1][1] = duration.count();
@@ -107,7 +107,7 @@ int main() {
     //inserting
     for (int run = 0; run < runs; run++) {
         auto start = high_resolution_clock::now();
-        vectors.insert(vectors.begin()+(vectors.size()/2), "TESTCODE");
+        V_insert(vectors);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
         data[0][2][0] = duration.count();
@@ -125,7 +125,7 @@ int main() {
 
     for (int run = 0; run < runs; run++) {
         auto start = high_resolution_clock::now();
-        sets.insert("TESTCODE");
+        S_insert(sets);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
         data[0][2][2] = duration.count();
@@ -160,6 +160,7 @@ int main() {
         data[1][3][2] += data[0][3][2];
     }
 
+    //basic output
     for (int i = 0; i < OPS; i++) {
         for (int j = 0; j < STRUCTS; j++) {
             cout << data[1][i][j]/runs << " ";
@@ -171,7 +172,7 @@ int main() {
 }
 
 //sorts a vector
-void V_sort(vector<string>& vectors){
+void V_sort(vector<string> vectors){
     for (int i = 0; i < vectors.size(); i++) {
         for (int j = 0; j < vectors.size() - 1; j++) {
             if (vectors.at(j) > vectors.at(j + 1)) {
@@ -183,8 +184,16 @@ void V_sort(vector<string>& vectors){
     }
 }
 
+void V_insert(vector<string> vectors){
+    vectors.insert(vectors.begin()+(vectors.size()/2), "TESTCODE");
+}
+
+void L_sort(list<string> lists){
+    lists.sort();
+}
+
 //inserts "TESTCODE" into middle of list
-void L_insert(list<string>& lists) {
+void L_insert(list<string> lists) {
     int i = 1;
     for (auto it = lists.begin(); it != lists.end();) {
         if ((lists.size()/2) == i) {
@@ -198,7 +207,7 @@ void L_insert(list<string>& lists) {
 }
 
 //deletes middle of list
-void L_delete(list<string>& lists) {
+void L_delete(list<string> lists) {
     int i = 1;
     for (auto it = lists.begin(); it != lists.end();) {
         if ((lists.size()/2) == i) {
@@ -211,8 +220,12 @@ void L_delete(list<string>& lists) {
     }  
 }
 
+void S_insert(set<string> sets) {
+    sets.insert("TESTCODE");
+}
+
 //deletes middle of set
-void S_delete(set<string>& sets) {
+void S_delete(set<string> sets) {
     int i = 1;
     for (auto it = sets.begin(); it != sets.end();) {
         if ((sets.size()/2) == i) {
