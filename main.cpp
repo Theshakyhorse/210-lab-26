@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <list>
 #include <set>
+#include <algorithm>
 using namespace std;
 using namespace std::chrono;
 
@@ -24,7 +25,7 @@ int main() {
     vector<string> vectors;
     list<string> lists;
     set<string> sets;
-    int data[2][OPS][STRUCTS];
+    int data[2][OPS][STRUCTS]= {0};
     string t;
 
     //cout << setw(W) << "Operation"; 
@@ -103,10 +104,9 @@ int main() {
         data[1][1][1] += data[0][1][1];
     }
     
-    for (int run = 0; run < runs; run++) {
-        data[0][1][2] = -1; //because it is a set
-        data[1][1][2] += data[0][1][2];
-    }
+    data[0][1][2] = -1; //because it is a set
+    data[1][1][2] = -15;
+    
 
     //inserting
     for (int run = 0; run < runs; run++) {
@@ -177,7 +177,7 @@ int main() {
 
 //sorts a vector
 void V_sort(vector<string> vectors){
-    
+    sort(vectors.begin(), vectors.end());
 }
 
 void V_insert(vector<string> vectors){
