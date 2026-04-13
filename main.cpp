@@ -1,4 +1,6 @@
 // COMSC-210 | Lab 26 | Alexander Sierra
+//sorry about the jump between milestone 1 and this commit
+// I took a small break since something came up
 #include <iostream>
 #include <chrono>
 #include <vector>
@@ -9,7 +11,7 @@
 using namespace std;
 using namespace std::chrono;
 
-const int W = 20;
+const int W = 20, OPS = 4, STRUCTS = 3, runs = 15;
 
 void V_sort(vector<string>&);
 void L_insert(list<string>&);
@@ -20,6 +22,8 @@ int main() {
     vector<string> vectors;
     list<string> lists;
     set<string> sets;
+    int data[runs][OPS][STRUCTS];
+    int accum[OPS][STRUCTS];
 
     string t;
     ifstream fin ("codes.txt");
@@ -35,24 +39,32 @@ int main() {
     cout << setw(W) << "Read";
 
     //Reading
-    if (fin.good()){
-        auto start = high_resolution_clock::now();
-        while (getline(fin, t)){
-            vectors.push_back(t);
+    for (int run = 0; run < runs; run++) {
+        if (fin.good()){
+            auto start = high_resolution_clock::now();
+            while (getline(fin, t)){
+                vectors.push_back(t);
+            }
+            auto end = high_resolution_clock::now();
+            auto duration = duration_cast<nanoseconds>(end - start);
+            data[run][0][0] = duration.count();
+            accum[0][0] += data[run][0][0];
         }
-        auto end = high_resolution_clock::now();
-        auto duration = duration_cast<nanoseconds>(end - start);
-        cout << setw(W) << duration.count();
+        fin.close();
     }
 
-    if (fin2.good()){
-        auto start = high_resolution_clock::now();
-        while (getline(fin, t)){
-            lists.push_back(t);
+    for (int run = 0; run < runs; run++) {
+        if (fin2.good()){
+            auto start = high_resolution_clock::now();
+            while (getline(fin2, t)){
+                lists.push_back(t);
+            }
+            auto end = high_resolution_clock::now();
+            auto duration = duration_cast<nanoseconds>(end - start);
+            data[run][0][1] = duration.count();
+            accum[0][1] += data[run][0][1];
         }
-        auto end = high_resolution_clock::now();
-        auto duration = duration_cast<nanoseconds>(end - start);
-        cout << setw(W) << duration.count();
+        fin2.close();
     }
 
     if (fin3.good()){
