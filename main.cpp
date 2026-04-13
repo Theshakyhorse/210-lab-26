@@ -12,8 +12,12 @@ using namespace std::chrono;
 const int W = 20, OPS = 4, STRUCTS = 3, runs = 15;
 
 void V_sort(vector<string>);
+void V_insert(vector<string>);
+void V_delete(vector<string>);
+void L_sort(list<string>);
 void L_insert(list<string>);
 void L_delete(list<string>);
+void S_insert(set<string>);
 void S_delete(set<string>);
 
 int main() {
@@ -135,7 +139,7 @@ int main() {
     //deleting
     for (int run = 0; run < runs; run++) {
         auto start = high_resolution_clock::now();
-        vectors.erase(vectors.begin()+(vectors.size()/2));
+        V_delete(vectors);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
         data[0][3][0] = duration.count();
@@ -173,19 +177,15 @@ int main() {
 
 //sorts a vector
 void V_sort(vector<string> vectors){
-    for (int i = 0; i < vectors.size(); i++) {
-        for (int j = 0; j < vectors.size() - 1; j++) {
-            if (vectors.at(j) > vectors.at(j + 1)) {
-                string temp = vectors.at(j);
-                vectors.at(j) = vectors.at(j + 1);
-                vectors.at(j + 1) = temp;
-            }
-        }
-    }
+    
 }
 
 void V_insert(vector<string> vectors){
     vectors.insert(vectors.begin()+(vectors.size()/2), "TESTCODE");
+}
+
+void V_delete(vector<string> vectors){
+    vectors.erase(vectors.begin()+(vectors.size()/2));
 }
 
 void L_sort(list<string> lists){
