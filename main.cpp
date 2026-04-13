@@ -1,6 +1,4 @@
 // COMSC-210 | Lab 26 | Alexander Sierra
-//sorry about the jump between milestone 1 and this commit
-// I took a small break since something came up
 #include <iostream>
 #include <chrono>
 #include <vector>
@@ -36,7 +34,7 @@ int main() {
     cout << setw(W) << "Set";
 
     cout << endl;
-    cout << setw(W) << "Read";
+    cout << setw(W) << "Read"; // will do output later
 
     //Reading
     for (int run = 0; run < runs; run++) {
@@ -67,31 +65,43 @@ int main() {
         fin2.close();
     }
 
-    if (fin3.good()){
-        auto start = high_resolution_clock::now();
-        while (getline(fin, t)){
-            sets.insert(t);
+    for (int run = 0; run < runs; run++) {
+        if (fin3.good()){
+            auto start = high_resolution_clock::now();
+            while (getline(fin3, t)){
+                sets.insert(t);
+            }
+            auto end = high_resolution_clock::now();
+            auto duration = duration_cast<nanoseconds>(end - start);
+            data[run][0][2] = duration.count();
+            accum[0][2] += data[run][0][2];
         }
-        auto end = high_resolution_clock::now();
-        auto duration = duration_cast<nanoseconds>(end - start);
-        cout << setw(W) << duration.count();
+        fin3.close();
     }
-    cout << endl << setw(W) << "Sort";
 
     //sorting
-    auto start = high_resolution_clock::now();
-    V_sort(vectors);
-    auto end = high_resolution_clock::now();
-    auto duration = duration_cast<nanoseconds>(end - start);
-    cout << setw(W) << duration.count();
+    for (int run = 0; run < runs; run++) {
+        auto start = high_resolution_clock::now();
+        V_sort(vectors);
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(end - start);
+        data[run][1][0] = duration.count();
+        accum[1][0] += data[run][1][0];
+    }
 
-    auto begin = high_resolution_clock::now();
-    lists.sort();
-    auto stop = high_resolution_clock::now();
-    auto length = duration_cast<nanoseconds>(stop - begin);
-    cout << setw(W) << length.count();
-
-    cout << setw(W) << "-1" << endl << setw(W) << "Insert";
+    for (int run = 0; run < runs; run++) {
+        auto start = high_resolution_clock::now();
+        lists.sort();
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(end - start);
+        data[run][1][1] = duration.count();
+        accum[1][1] += data[run][1][1];
+    }
+    
+    for (int run = 0; run < runs; run++) {
+        data[run][1][2] = -1; // because it is a set
+        accum[1][2] += data[run][1][2];
+    }
 
     //inserting
     auto four = high_resolution_clock::now();
