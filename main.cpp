@@ -20,8 +20,7 @@ int main() {
     vector<string> vectors;
     list<string> lists;
     set<string> sets;
-    int data[runs][OPS][STRUCTS];
-    int accum[OPS][STRUCTS];
+    int data[2][OPS][STRUCTS];
 
     string t;
     ifstream fin ("codes.txt");
@@ -45,10 +44,10 @@ int main() {
             }
             auto end = high_resolution_clock::now();
             auto duration = duration_cast<nanoseconds>(end - start);
-            data[run][0][0] = duration.count();
-            accum[0][0] += data[run][0][0];
+            data[0][0][0] = duration.count();
+            data[1][0][0] += data[0][0][0];
         }
-        fin.close();
+        
     }
 
     for (int run = 0; run < runs; run++) {
@@ -59,10 +58,10 @@ int main() {
             }
             auto end = high_resolution_clock::now();
             auto duration = duration_cast<nanoseconds>(end - start);
-            data[run][0][1] = duration.count();
-            accum[0][1] += data[run][0][1];
+            data[0][0][1] = duration.count();
+            data[1][0][1] += data[0][0][1];
         }
-        fin2.close();
+        
     }
 
     for (int run = 0; run < runs; run++) {
@@ -73,10 +72,10 @@ int main() {
             }
             auto end = high_resolution_clock::now();
             auto duration = duration_cast<nanoseconds>(end - start);
-            data[run][0][2] = duration.count();
-            accum[0][2] += data[run][0][2];
+            data[0][0][2] = duration.count();
+            data[1][0][2] += data[0][0][2];
         }
-        fin3.close();
+       
     }
 
     //sorting
@@ -85,8 +84,8 @@ int main() {
         V_sort(vectors);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        data[run][1][0] = duration.count();
-        accum[1][0] += data[run][1][0];
+        data[0][1][0] = duration.count();
+        data[1][1][0] += data[0][1][0];
     }
 
     for (int run = 0; run < runs; run++) {
@@ -94,13 +93,13 @@ int main() {
         lists.sort();
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        data[run][1][1] = duration.count();
-        accum[1][1] += data[run][1][1];
+        data[0][1][1] = duration.count();
+        data[1][1][1] += data[0][1][1];
     }
     
     for (int run = 0; run < runs; run++) {
-        data[run][1][2] = -1; // because it is a set
-        accum[1][2] += data[run][1][2];
+        data[0][1][2] = -1; //because it is a set
+        data[1][1][2] += data[0][1][2];
     }
 
     //inserting
