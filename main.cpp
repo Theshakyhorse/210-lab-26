@@ -12,14 +12,14 @@ using namespace std::chrono;
 
 const int W = 20, OPS = 4, STRUCTS = 3, runs = 15;
 
-void V_sort(vector<string>);
-void V_insert(vector<string>);
-void V_delete(vector<string>);
-void L_sort(list<string>);
-void L_insert(list<string>);
-void L_delete(list<string>);
-void S_insert(set<string>);
-void S_delete(set<string>);
+void V_sort(vector<string>&);
+void V_insert(vector<string>&);
+void V_delete(vector<string>&);
+void L_sort(list<string>&);
+void L_insert(list<string>&);
+void L_delete(list<string>&);
+void S_insert(set<string>&);
+void S_delete(set<string>&);
 
 int main() {
     vector<string> vectors;
@@ -104,8 +104,8 @@ int main() {
         data[1][1][1] += data[0][1][1];
     }
     
-    data[0][1][2] = -1; //because it is a set
-    data[1][1][2] = -15;
+    data[0][1][2] = 0; //because it is a set
+    data[1][1][2] = 0;
     
 
     //inserting
@@ -176,24 +176,24 @@ int main() {
 }
 
 //sorts a vector
-void V_sort(vector<string> vectors){
+void V_sort(vector<string>& vectors){
     sort(vectors.begin(), vectors.end());
 }
 
-void V_insert(vector<string> vectors){
+void V_insert(vector<string>& vectors){
     vectors.insert(vectors.begin()+(vectors.size()/2), "TESTCODE");
 }
 
-void V_delete(vector<string> vectors){
+void V_delete(vector<string>& vectors){
     vectors.erase(vectors.begin()+(vectors.size()/2));
 }
 
-void L_sort(list<string> lists){
+void L_sort(list<string>& lists){
     lists.sort();
 }
 
 //inserts "TESTCODE" into middle of list
-void L_insert(list<string> lists) {
+void L_insert(list<string>& lists) {
     int i = 1;
     for (auto it = lists.begin(); it != lists.end();) {
         if ((lists.size()/2) == i) {
@@ -207,7 +207,7 @@ void L_insert(list<string> lists) {
 }
 
 //deletes middle of list
-void L_delete(list<string> lists) {
+void L_delete(list<string>& lists) {
     int i = 1;
     for (auto it = lists.begin(); it != lists.end();) {
         if ((lists.size()/2) == i) {
@@ -220,12 +220,12 @@ void L_delete(list<string> lists) {
     }  
 }
 
-void S_insert(set<string> sets) {
+void S_insert(set<string>& sets) {
     sets.insert("TESTCODE");
 }
 
 //deletes middle of set
-void S_delete(set<string> sets) {
+void S_delete(set<string>& sets) {
     int i = 1;
     for (auto it = sets.begin(); it != sets.end();) {
         if ((sets.size()/2) == i) {
