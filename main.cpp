@@ -25,19 +25,14 @@ int main() {
     vector<string> vectors;
     list<string> lists;
     set<string> sets;
-    int data[2][OPS][STRUCTS]= {0};
+    int data[2][OPS][STRUCTS]= {0}; 
+    //operation 1=read, 2=sort, 3=insert, 4=delete
+    //struct 1=vector, 2=list, 3=set
     string t;
-
-    //cout << setw(W) << "Operation"; 
-    //cout << setw(W) << "Vector";
-    //cout << setw(W) << "List";
-    //cout << setw(W) << "Set";
-
-    //cout << endl;
-    //cout << setw(W) << "Read"; will do output later
 
     //Reading
     for (int run = 0; run < runs; run++) {
+        //each operation will be looped for runs times
         ifstream fin ("codes.txt");
         vectors.clear();
         if (fin.good()){
@@ -47,8 +42,10 @@ int main() {
             }
             auto end = high_resolution_clock::now();
             auto duration = duration_cast<nanoseconds>(end - start);
-            data[0][0][0] = duration.count();
-            data[1][0][0] += data[0][0][0];
+            data[0][0][0] = duration.count(); //stores current timing
+            data[1][0][0] += data[0][0][0]; //acumulates timings
+            //this layout of looping the operation runs times then storing current timing
+            //and accumulating the timing is the same for all operations except set sorting
         }
         fin.close();
     }
@@ -115,7 +112,7 @@ int main() {
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
         data[0][2][0] = duration.count();
-        data[1][2][0] += data[0][2][0];
+        data[1][2][0] += data[0][2][0]; 
     }
 
     for (int run = 0; run < runs; run++) {
@@ -164,7 +161,7 @@ int main() {
         data[1][3][2] += data[0][3][2];
     }
 
-    //basic output
+    //output
     cout << "Number of simulations: " << runs << endl;
     cout << setw(W) << "Operation" << setw(W) << "Vector";
     cout << setw(W) << "List" << setw(W) << "Set" << endl;
@@ -195,14 +192,17 @@ void V_sort(vector<string>& vectors){
     sort(vectors.begin(), vectors.end());
 }
 
+//inserts TESTCODE in the middle of a vector
 void V_insert(vector<string>& vectors){
     vectors.insert(vectors.begin()+(vectors.size()/2), "TESTCODE");
 }
 
+//deletes middle element of a vector
 void V_delete(vector<string>& vectors){
     vectors.erase(vectors.begin()+(vectors.size()/2));
 }
 
+//sorts a list
 void L_sort(list<string>& lists){
     lists.sort();
 }
@@ -235,6 +235,7 @@ void L_delete(list<string>& lists) {
     }  
 }
 
+//inserts TESTCODE into a set
 void S_insert(set<string>& sets) {
     sets.insert("TESTCODE");
 }
@@ -252,10 +253,3 @@ void S_delete(set<string>& sets) {
         ++i;
     }  
 }
-
-/* syntax examples:
-auto start = high_resolution_clock::now()
-auto end = high_resolution_clock::now()
-auto duration = duration_cast<milliseconds>(end - start)
-duration.count() references elapsed milliseconds
-*/
