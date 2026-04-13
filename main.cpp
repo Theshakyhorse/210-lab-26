@@ -28,13 +28,13 @@ int main() {
     ifstream fin2 ("codes.txt");
     ifstream fin3 ("codes.txt");
 
-    cout << setw(W) << "Operation"; 
-    cout << setw(W) << "Vector";
-    cout << setw(W) << "List";
-    cout << setw(W) << "Set";
+    //cout << setw(W) << "Operation"; 
+    //cout << setw(W) << "Vector";
+    //cout << setw(W) << "List";
+    //cout << setw(W) << "Set";
 
-    cout << endl;
-    cout << setw(W) << "Read"; // will do output later
+    //cout << endl;
+    //cout << setw(W) << "Read"; will do output later
 
     //Reading
     for (int run = 0; run < runs; run++) {
@@ -104,42 +104,60 @@ int main() {
     }
 
     //inserting
-    auto four = high_resolution_clock::now();
-    vectors.insert(vectors.begin()+(vectors.size()/2), "TESTCODE");
-    auto five = high_resolution_clock::now();
-    auto six = duration_cast<nanoseconds>(five - four);
-    cout << setw(W) << six.count();
+    for (int run = 0; run < runs; run++) {
+        auto start = high_resolution_clock::now();
+        vectors.insert(vectors.begin()+(vectors.size()/2), "TESTCODE");
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(end - start);
+        data[run][2][0] = duration.count();
+        accum[2][0] += data[run][2][0];
+    }
 
-    auto seven = high_resolution_clock::now();
-    L_insert(lists);
-    auto eight = high_resolution_clock::now();
-    auto nine = duration_cast<nanoseconds>(eight - seven);
-    cout << setw(W) << nine.count();
+    for (int run = 0; run < runs; run++) {
+        auto start = high_resolution_clock::now();
+        L_insert(lists);
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(end - start);
+        data[run][2][1] = duration.count();
+        accum[2][1] += data[run][2][1];
+    }
 
-    auto one = high_resolution_clock::now();
-    sets.insert("TESTCODE");
-    auto two = high_resolution_clock::now();
-    auto three = duration_cast<nanoseconds>(two - one);
-    cout << setw(W) << three.count() << endl << setw(W) << "Delete";
+    for (int run = 0; run < runs; run++) {
+        auto start = high_resolution_clock::now();
+        sets.insert("TESTCODE");
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(end - start);
+        data[run][2][2] = duration.count();
+        accum[2][2] += data[run][2][2];
+    }
 
     //deleting
-    auto ten = high_resolution_clock::now();
-    vectors.erase(vectors.begin()+(vectors.size()/2));
-    auto eleven = high_resolution_clock::now();
-    auto twelve = duration_cast<nanoseconds>(eleven - ten);
-    cout << setw(W) << twelve.count();
+    for (int run = 0; run < runs; run++) {
+        auto start = high_resolution_clock::now();
+        vectors.erase(vectors.begin()+(vectors.size()/2));
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(end - start);
+        data[run][3][0] = duration.count();
+        accum[3][0] += data[run][3][0];
+    }
 
-    auto thirteen = high_resolution_clock::now();
-    L_delete(lists);
-    auto fourteen = high_resolution_clock::now();
-    auto fifteen = duration_cast<nanoseconds>(fourteen - thirteen);
-    cout << setw(W) << fifteen.count();
+    for (int run = 0; run < runs; run++) {
+        auto start = high_resolution_clock::now();
+        L_delete(lists);
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(end - start);
+        data[run][3][1] = duration.count();
+        accum[3][1] += data[run][3][1];
+    }
 
-    auto sixteen = high_resolution_clock::now();
-    S_delete(sets);
-    auto seventeen = high_resolution_clock::now();
-    auto eighteen = duration_cast<nanoseconds>(seventeen - sixteen);
-    cout << setw(W) << eighteen.count() << endl;
+    for (int run = 0; run < runs; run++) {
+        auto start = high_resolution_clock::now();
+        S_delete(sets);
+        auto end = high_resolution_clock::now();
+        auto duration = duration_cast<nanoseconds>(end - start);
+        data[run][3][2] = duration.count();
+        accum[3][2] += data[run][3][2];
+    }
 
     return 0;
 }
