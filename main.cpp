@@ -21,11 +21,7 @@ int main() {
     list<string> lists;
     set<string> sets;
     int data[2][OPS][STRUCTS];
-
     string t;
-    ifstream fin ("codes.txt");
-    ifstream fin2 ("codes.txt");
-    ifstream fin3 ("codes.txt");
 
     //cout << setw(W) << "Operation"; 
     //cout << setw(W) << "Vector";
@@ -37,6 +33,8 @@ int main() {
 
     //Reading
     for (int run = 0; run < runs; run++) {
+        ifstream fin ("codes.txt");
+        vectors.clear();
         if (fin.good()){
             auto start = high_resolution_clock::now();
             while (getline(fin, t)){
@@ -47,13 +45,15 @@ int main() {
             data[0][0][0] = duration.count();
             data[1][0][0] += data[0][0][0];
         }
-        
+        fin.close();
     }
 
     for (int run = 0; run < runs; run++) {
-        if (fin2.good()){
+        ifstream fin ("codes.txt");
+        lists.clear();
+        if (fin.good()){
             auto start = high_resolution_clock::now();
-            while (getline(fin2, t)){
+            while (getline(fin, t)){
                 lists.push_back(t);
             }
             auto end = high_resolution_clock::now();
@@ -65,9 +65,11 @@ int main() {
     }
 
     for (int run = 0; run < runs; run++) {
-        if (fin3.good()){
+        ifstream fin ("codes.txt");
+        sets.clear();
+        if (fin.good()){
             auto start = high_resolution_clock::now();
-            while (getline(fin3, t)){
+            while (getline(fin, t)){
                 sets.insert(t);
             }
             auto end = high_resolution_clock::now();
@@ -108,8 +110,8 @@ int main() {
         vectors.insert(vectors.begin()+(vectors.size()/2), "TESTCODE");
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        data[run][2][0] = duration.count();
-        accum[2][0] += data[run][2][0];
+        data[0][2][0] = duration.count();
+        data[1][2][0] += data[0][2][0];
     }
 
     for (int run = 0; run < runs; run++) {
@@ -117,8 +119,8 @@ int main() {
         L_insert(lists);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        data[run][2][1] = duration.count();
-        accum[2][1] += data[run][2][1];
+        data[0][2][1] = duration.count();
+        data[1][2][1] += data[0][2][1];
     }
 
     for (int run = 0; run < runs; run++) {
@@ -126,8 +128,8 @@ int main() {
         sets.insert("TESTCODE");
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        data[run][2][2] = duration.count();
-        accum[2][2] += data[run][2][2];
+        data[0][2][2] = duration.count();
+        data[1][2][2] += data[0][2][2];
     }
 
     //deleting
@@ -136,8 +138,8 @@ int main() {
         vectors.erase(vectors.begin()+(vectors.size()/2));
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        data[run][3][0] = duration.count();
-        accum[3][0] += data[run][3][0];
+        data[0][3][0] = duration.count();
+        data[1][3][0] += data[0][3][0];
     }
 
     for (int run = 0; run < runs; run++) {
@@ -145,8 +147,8 @@ int main() {
         L_delete(lists);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        data[run][3][1] = duration.count();
-        accum[3][1] += data[run][3][1];
+        data[0][3][1] = duration.count();
+        data[1][3][1] += data[0][3][1];
     }
 
     for (int run = 0; run < runs; run++) {
@@ -154,8 +156,15 @@ int main() {
         S_delete(sets);
         auto end = high_resolution_clock::now();
         auto duration = duration_cast<nanoseconds>(end - start);
-        data[run][3][2] = duration.count();
-        accum[3][2] += data[run][3][2];
+        data[0][3][2] = duration.count();
+        data[1][3][2] += data[0][3][2];
+    }
+
+    for (int i = 0; i < OPS; i++) {
+        for (int j = 0; j < STRUCTS; j++) {
+            cout << data[1][i][j]/runs << " ";
+        }
+        cout << endl;
     }
 
     return 0;
